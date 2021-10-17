@@ -1,0 +1,15 @@
+[package]
+name = "csvtoron"
+version = "0.1.0"
+edition = "2018"
+license = "MIT"
+author = ["Hartmut"]
+
+[[bin]]
+name = "csvtoron"
+path = "src/main.rs"
+
+[dependencies]
+ron = "0.6.5"
+serde = { version = "1", features = ["derive"] }
+csv = "1.1"
