@@ -2,7 +2,7 @@ extern crate csv;
 
 use csv::{ReaderBuilder, StringRecord, Trim};
 use ron::ser::{to_writer_pretty, PrettyConfig};
-use serde::{Serialize};
+use serde::Serialize;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::{BufReader, BufWriter, Read};
@@ -63,6 +63,7 @@ pub fn create_ron_file(filename: &str) -> Result<BufWriter<File>, String> {
 }
 
 #[derive(Debug, Serialize)]
+#[serde(untagged)]
 pub enum OutType {
     Str(String),
     U64(u64),
@@ -75,6 +76,7 @@ impl Default for OutType {
     }
 }
 
+// TODO serialize so that the field name is not written as String but as a structure element name
 type OutRecord = HashMap<String, OutType>;
 type OutVec = Vec<OutRecord>;
 
@@ -83,8 +85,14 @@ pub struct Ronfile {
     pub content: OutVec,
 }
 
-pub fn matcher() -> OutType {
-    OutType::default()
+pub fn matcher(element: String) -> OutType {
+    if let Ok(output) = element.parse::<f64>() {
+        OutType::F64(output)
+    } else if let Ok(output) = element.parse::<u64>() {
+        OutType::U64(output)
+    } else {
+        OutType::Str(element.to_string())
+    }
 }
 
 pub fn convert(csv: Csvinput) -> Ronfile {
@@ -95,7 +103,7 @@ pub fn convert(csv: Csvinput) -> Ronfile {
         for element in record.iter() {
             outrecord.insert(
                 field.next().unwrap().to_string(),
-                OutType::Str(element.to_string()),
+                matcher(element.to_string()),
             );
         }
         res.content.push(outrecord);
