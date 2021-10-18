@@ -78,11 +78,10 @@ impl Default for OutType {
 
 // TODO serialize so that the field name is not written as String but as a structure element name
 type OutRecord = HashMap<String, OutType>;
-type OutVec = Vec<OutRecord>;
 
 #[derive(Default, Debug, Serialize)]
 pub struct Ronfile {
-    pub content: OutVec,
+    pub content: Vec<OutRecord>,
 }
 
 pub fn matcher(element: String) -> OutType {
