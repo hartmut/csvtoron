@@ -32,22 +32,27 @@ pub struct Csvinput {
 }
 
 // load csv file and export to Vec
-// TODO define delimeter in input
+// delimiter is determinde automatically
 pub fn csvreader(content: &str) -> Csvinput {
+    // create csv reader to interpret input string
     let mut rdr = ReaderBuilder::new()
         .trim(Trim::All)
         .from_reader(content.as_bytes());
 
+    // extract headers
     let header = rdr.headers().unwrap().clone();
 
+    // extract list of lines/records
     let records = rdr
         .records()
         .collect::<Result<Vec<StringRecord>, csv::Error>>()
         .unwrap();
 
+    // Output
     Csvinput { header, records }
 }
 
+// create writer from for the ron output file
 pub fn create_ron_file(filename: &str) -> Result<BufWriter<File>, String> {
     let ron_filename = filename.split('.').next();
     if ron_filename.is_none() {
@@ -62,6 +67,7 @@ pub fn create_ron_file(filename: &str) -> Result<BufWriter<File>, String> {
     Ok(BufWriter::new(ron_file.unwrap()))
 }
 
+// definition of content of a cell
 #[derive(Debug, Serialize)]
 #[serde(untagged)]
 pub enum OutType {
@@ -70,6 +76,7 @@ pub enum OutType {
     F64(f64),
 }
 
+// default implementation of cell content
 impl Default for OutType {
     fn default() -> Self {
         OutType::Str("".to_string())
@@ -77,13 +84,16 @@ impl Default for OutType {
 }
 
 // TODO serialize so that the field name is not written as String but as a structure element name
+// one line of a csv file as a Hashmap
 type OutRecord = HashMap<String, OutType>;
 
+// whole content of a csv file which can be written as a ron file
 #[derive(Default, Debug, Serialize)]
 pub struct Ronfile {
     pub content: Vec<OutRecord>,
 }
 
+// determine content of a cell (f64, u64 or String)
 pub fn matcher(element: String) -> OutType {
     if let Ok(output) = element.parse::<f64>() {
         OutType::F64(output)
@@ -94,6 +104,7 @@ pub fn matcher(element: String) -> OutType {
     }
 }
 
+// ron converter
 pub fn convert(csv: Csvinput) -> Ronfile {
     let mut res = Ronfile::default();
     for record in csv.records {
