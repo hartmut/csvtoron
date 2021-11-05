@@ -27,6 +27,12 @@ The Output format is as follows:
     ]
 )
 
+# Version 1
+* rewrite to library and move main into examples
+* test example with fixed field sizes
+* writing tests for the variants - fixed cell, comma and semicolon separated lists
+* after transformation of one line the output should be deseriazable as a structure, this means no quotation marks on the name of structure elements 
+
 # Version 2 
 * modify the output so that the cell header will be written without a hyphen so that you can import a record as a struct.
 * allow json output, then this project needs to be renamed :)
