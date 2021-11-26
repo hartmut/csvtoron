@@ -14,6 +14,8 @@ in the library. The return value is
 Result<(), String>
 ```
 
+For issues and problems please go to [github](https://github.com/hartmut/csvtoron).
+
 ## example
 
 ```rust

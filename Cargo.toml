@@ -3,7 +3,7 @@ name = "csvtoron"
 version = "0.2.0"
 edition = "2018"
 license = "MIT"
-author = ["Hartmut Prochaska <hartmut.prochaska@gmail.com>"]
+author = ["Hartmut"]
 
 [lib]
 name = "csvtoron"
