@@ -6,9 +6,9 @@ use serde::Serialize;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::{BufReader, BufWriter, Read};
-use std::{env, format};
+use std::format;
 
-pub fn get_file_content(filename: &str) -> Result<String, String> {
+fn get_file_content(filename: &str) -> Result<String, String> {
     let file = File::open(filename);
     if file.is_err() {
         return Err(format!("Could not open file {}", filename));
@@ -26,14 +26,14 @@ pub fn get_file_content(filename: &str) -> Result<String, String> {
 }
 
 #[derive(Debug)]
-pub struct Csvinput {
+struct Csvinput {
     pub header: StringRecord,
     pub records: Vec<StringRecord>,
 }
 
 // load csv file and export to Vec
 // delimiter is determinde automatically
-pub fn csvreader(content: &str) -> Csvinput {
+fn csvreader(content: &str) -> Csvinput {
     // create csv reader to interpret input string
     let mut rdr = ReaderBuilder::new()
         .trim(Trim::All)
@@ -53,7 +53,7 @@ pub fn csvreader(content: &str) -> Csvinput {
 }
 
 // create writer from for the ron output file
-pub fn create_ron_file(filename: &str) -> Result<BufWriter<File>, String> {
+fn create_ron_file(filename: &str) -> Result<BufWriter<File>, String> {
     let ron_filename = filename.split('.').next();
     if ron_filename.is_none() {
         return Err(format!("Failed to get the ron filename {}", filename));
@@ -70,7 +70,7 @@ pub fn create_ron_file(filename: &str) -> Result<BufWriter<File>, String> {
 // definition of content of a cell
 #[derive(Debug, Serialize)]
 #[serde(untagged)]
-pub enum OutType {
+enum OutType {
     Str(String),
     U64(u64),
     F64(f64),
@@ -89,12 +89,12 @@ type OutRecord = HashMap<String, OutType>;
 
 // whole content of a csv file which can be written as a ron file
 #[derive(Default, Debug, Serialize)]
-pub struct Ronfile {
-    pub content: Vec<OutRecord>,
+struct Ronfile {
+     content: Vec<OutRecord>,
 }
 
 // determine content of a cell (f64, u64 or String)
-pub fn matcher(element: String) -> OutType {
+fn matcher(element: String) -> OutType {
     if let Ok(output) = element.parse::<f64>() {
         OutType::F64(output)
     } else if let Ok(output) = element.parse::<u64>() {
@@ -105,7 +105,7 @@ pub fn matcher(element: String) -> OutType {
 }
 
 // ron converter
-pub fn convert(csv: Csvinput) -> Ronfile {
+fn convert(csv: Csvinput) -> Ronfile {
     let mut res = Ronfile::default();
     for record in csv.records {
         let mut field = csv.header.iter();
@@ -121,12 +121,7 @@ pub fn convert(csv: Csvinput) -> Ronfile {
     res
 }
 
-fn main() -> Result<(), String> {
-    let args: Vec<String> = env::args().collect();
-    if args.len() != 2 {
-        return Err("Usage is : ./csvtoron <filename>".to_string());
-    }
-    let filename = args.get(1).unwrap();
+pub fn master(filename: &str) -> Result<(), String> {
     let content = get_file_content(filename)?;
     let doc = csvreader(&content);
     let converted = convert(doc);
