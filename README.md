@@ -5,7 +5,7 @@ Project to automatically convert csv files to ron. Partialy bases on the project
 For usage take a look into the example directory or just call
 
 ```rust
-master(filename)
+to_ron(filename)
 ```
 
 in the library. The return value is
@@ -20,7 +20,7 @@ For issues and problems please go to [github](https://github.com/hartmut/csvtoro
 
 ```rust
 > use std::env;
-use csvtoron::master;
+use csvtoron::to_ron;
 
 > fn main() -> Result<(), String> {
     let args: Vec<String> = env::args().collect();
@@ -28,7 +28,7 @@ use csvtoron::master;
         return Err("Usage is : ./csvtoron <filename>".to_string());
     }
     let filename = args.get(1).unwrap();
-    master(filename)
+    to_ron(filename)
 }
 ```
 
@@ -57,6 +57,7 @@ The Output format is as follows:
 
 ## Version 1
 
+* creating documentation
 * test example with fixed field sizes
 * writing tests for the variants - fixed cell, comma and semicolon separated lists
 * after transformation of one line the output should be deseriazable as a structure, this means no quotation marks on the name of structure elements
@@ -64,4 +65,4 @@ The Output format is as follows:
 ## Version 2
 
 * modify the output so that the cell header will be written without a hyphen so that you can import a record as a struct.
-* allow json output, then this project needs to be renamed :)
+* allow json output, then this project needs to be migrated to anonther project

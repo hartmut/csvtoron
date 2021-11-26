@@ -121,7 +121,7 @@ fn convert(csv: Csvinput) -> Ronfile {
     res
 }
 
-pub fn master(filename: &str) -> Result<(), String> {
+pub fn to_ron(filename: &str) -> Result<(), String> {
     let content = get_file_content(filename)?;
     let doc = csvreader(&content);
     let converted = convert(doc);

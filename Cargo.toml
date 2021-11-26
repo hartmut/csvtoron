@@ -4,6 +4,10 @@ version = "0.2.0"
 edition = "2018"
 license = "MIT"
 author = ["Hartmut"]
+description = "converting csv file to the ron format"
+documentation = "https://docs.rs/csvtoron"
+repository = "https://github.com/hartmut/csvtoron"
+readme = "README.md"
 
 [lib]
 name = "csvtoron"
