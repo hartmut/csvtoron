@@ -1,6 +1,6 @@
 # csvtoron
 
-Project to automatically convert csv files to ron. Partialy bases on the project toml_to_ron.
+Project to automatically convert csv files to ron. Partialy derived from the project toml_to_ron.
 
 For usage take a look into the example directory or just call
 
@@ -19,10 +19,10 @@ For issues and problems please go to [github](https://github.com/hartmut/csvtoro
 ## example
 
 ```rust
-> use std::env;
+use std::env;
 use csvtoron::to_ron;
 
-> fn main() -> Result<(), String> {
+fn main() -> Result<(), String> {
     let args: Vec<String> = env::args().collect();
     if args.len() != 2 {
         return Err("Usage is : ./csvtoron <filename>".to_string());
@@ -57,7 +57,8 @@ The Output format is as follows:
 
 ## Version 1
 
-* creating documentation
+* currently the field name is serialized as a string but not  as a structure element name, so it is more difficult to automatically consume one ron element/csv line into a record
+* create documentation
 * test example with fixed field sizes
 * writing tests for the variants - fixed cell, comma and semicolon separated lists
 * after transformation of one line the output should be deseriazable as a structure, this means no quotation marks on the name of structure elements

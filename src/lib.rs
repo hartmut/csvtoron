@@ -4,9 +4,9 @@ use csv::{ReaderBuilder, StringRecord, Trim};
 use ron::ser::{to_writer_pretty, PrettyConfig};
 use serde::Serialize;
 use std::collections::HashMap;
+use std::format;
 use std::fs::File;
 use std::io::{BufReader, BufWriter, Read};
-use std::format;
 
 fn get_file_content(filename: &str) -> Result<String, String> {
     let file = File::open(filename);
@@ -90,7 +90,7 @@ type OutRecord = HashMap<String, OutType>;
 // whole content of a csv file which can be written as a ron file
 #[derive(Default, Debug, Serialize)]
 struct Ronfile {
-     content: Vec<OutRecord>,
+    content: Vec<OutRecord>,
 }
 
 // determine content of a cell (f64, u64 or String)
@@ -120,6 +120,22 @@ fn convert(csv: Csvinput) -> Ronfile {
     }
     res
 }
+
+/// Converts a csv file to a ron file. The csv filename will not be touched
+/// but a new file with the file type .ron will be created in the same directory
+/// as the csv file.
+///
+/// # Example Code
+///
+/// ```
+/// use std::env;
+/// use csvtoron::to_ron;
+///
+/// fn main() -> Result<(), String> {
+///    to_ron("this_is_a_csv_file.csv")
+/// }
+/// ```
+/// Output will be in the file **this_is_a_csv_file.ron**
 
 pub fn to_ron(filename: &str) -> Result<(), String> {
     let content = get_file_content(filename)?;
