@@ -16,7 +16,7 @@ Result<(), String>
 
 For issues and problems please go to [github](https://github.com/hartmut/csvtoron).
 
-## example
+## Example
 
 ```rust
 use std::env;
@@ -38,7 +38,7 @@ The the cells will be interpreted as f64, u64 and string and put into the output
 
 The Output format is as follows:
 
-```ron
+```json
 (
     content: [
         { 
