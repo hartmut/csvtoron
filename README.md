@@ -32,6 +32,11 @@ fn main() -> Result<(), String> {
 }
 ```
 
+## Input
+
+- a header line is needed
+- the program determines the seperator, in later versions it will be possible to define it
+
 ## Output
 
 The the cells will be interpreted as f64, u64 and string and put into the output file acordingly.
@@ -57,13 +62,13 @@ The Output format is as follows:
 
 ## Version 1
 
-* currently the field name is serialized as a string but not  as a structure element name, so it is more difficult to automatically consume one ron element/csv line into a record
-* create documentation
-* test example with fixed field sizes
-* writing tests for the variants - fixed cell, comma and semicolon separated lists
-* after transformation of one line the output should be deseriazable as a structure, this means no quotation marks on the name of structure elements
+- currently the field name is serialized as a string but not  as a structure element name, so it is more difficult to automatically consume one ron element/csv line into a record
+- create documentation
+- test example with fixed field sizes
+- writing tests for the variants - fixed cell, comma and semicolon separated lists
+- after transformation of one line the output should be deseriazable as a structure, this means no quotation marks on the name of structure elements
 
 ## Version 2
 
-* modify the output so that the cell header will be written without a hyphen so that you can import a record as a struct.
-* allow json output, then this project needs to be migrated to anonther project
+- modify the output so that the cell header will be written without a hyphen so that you can import a record as a struct.
+- allow json output, then this project needs to be migrated to anonther project
