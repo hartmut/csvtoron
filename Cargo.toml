@@ -8,6 +8,9 @@ description = "converting csv file to the ron format"
 documentation = "https://docs.rs/csvtoron"
 repository = "https://github.com/hartmut/csvtoron"
 readme = "README.md"
+exclude = [
+    "assets/*",
+]
 
 [lib]
 name = "csvtoron"
