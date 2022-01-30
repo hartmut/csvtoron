@@ -1,6 +1,6 @@
 # csvtoron
 
-Project to automatically convert csv files to ron. Partialy derived from the project toml_to_ron.
+Project to automatically convert csv files to ron. Inspired by the project toml_to_ron.
 
 For usage take a look into the example directory or just call
 
