@@ -14,6 +14,8 @@ in the library. The return value is
 Result<(), String>
 ```
 
+The Result Strings only contains whether the creation of the ron file has been successfull. The library currently automatically writes a file in the same directory and filename as the source but with the extension .ron instead of .csv .  
+
 For issues and problems please go to [github](https://github.com/hartmut/csvtoron).
 
 ## Example
