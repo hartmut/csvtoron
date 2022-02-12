@@ -2,7 +2,8 @@ extern crate csv;
 
 use csv::{ReaderBuilder, StringRecord, Trim};
 use ron::ser::{to_writer_pretty, PrettyConfig};
-use serde::Serialize;
+use serde::{Serialize, Serializer};
+use serde::ser::{SerializeSeq, SerializeMap};
 use std::collections::HashMap;
 use std::format;
 use std::fs::File;
@@ -91,6 +92,20 @@ type OutRecord = HashMap<String, OutType>;
 #[derive(Default, Debug, Serialize)]
 struct Ronfile {
     content: Vec<OutRecord>,
+}
+
+impl Serialize for OutRecord
+{
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let mut map = serializer.serialize_map(Some(self.len()))?;
+        for (k, v) in self {
+            map.serialize_entry(k, v)?;
+        }
+        map.end()
+    }
 }
 
 // determine content of a cell (f64, u64 or String)
